@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('Activate Did') }}</h1>
+
+    {% set form_title = _('Activate Did') %}
+    {% include("_basic_form.html") %}
+
+{#    {% include("mange/_all_available_dids.html") %}#}
+    <script>
+        var country_id = '0';
+        var vendor_id = '0';
+
+        $('#country_id').on('change', say_hello);
+        $('#vendor_id').on('change', say_hello);
+
+        function say_hello() {
+            country_id = $('#country_id').val();
+            vendor_id = $('#vendor_id').val();
+            {#            $('#did').val('7');#}
+            {#            alert(vendor_id + 'hello! ' + country_id);#}
+            $('#did').empty();
+            list_of_dids(country_id, vendor_id);
+        }
+
+        function list_of_dids(country_id, vendor_id) {
+            $.post('/mange/filter_dids', {
+                country_id: country_id,
+                vendor_id: vendor_id,
+                dataType: 'json'
+            }).done(function (response) {
+                var list = response;
+                {#                 console.log(list)#}
+                $.each(list, function (i, value) {
+                    {#                    console.log(i)#}
+                    {#                    console.log(value)#}
+                    $('#did').append($('<option>').text(value[1]).attr('value', value[0]));
+                })
+                return list;
+            }).fail(function () {
+                return ({'id': 'faild'});
+            });
+        }
+    </script>
+{% endblock %}
+
+
+{% block scripts %}
+    {#    {{ super() }}#}
+    {#    {{ moment.include_moment() }}#}
+    {#    {{ moment.lang(g.locale) }}#}
+    <script src="/static/jquery-3.3.1.min.js"></script>
+
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="../static/assets/img/favicon.png" type="image/x-icon">
+
+
+    <!--Page Related styles-->
+    <link href="../static/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
+
+{% endblock %}

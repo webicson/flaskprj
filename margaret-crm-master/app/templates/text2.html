@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>{{ _('TTTT') }}</h1>
+    <ul>
+    {% for x in dids %}
+        <li> {{ x }} </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

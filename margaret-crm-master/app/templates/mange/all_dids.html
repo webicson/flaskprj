@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <table>
+    {% for did in dids %}
+        <tr>
+        <td>
+            {% include 'mange/_did.html' %}
+        </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

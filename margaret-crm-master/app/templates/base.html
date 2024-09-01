@@ -1,0 +1,88 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - Margaret  {% else %}{{ _('Welcome to Margaret') }}{% endif %}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+        {%  include("_header.html") %}
+    {% endif %}
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock content%}
+
+{% block head %}
+{#    {{ super() }}#}
+
+    <script src="/static/assets/js/jquery.min.js"></script>
+{#    <script src="/static/jquery-3.3.1.min.js"></script> #}
+
+    <!--Basic Styles-->
+    <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/weather-icons.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+
+    <!--Fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="/static/assets/css/beyond.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/demo.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="/static/assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="/static/assets/js/skins.min.js"></script>
+
+{% endblock head %}
+
+{% block scripts %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{#    {{ super() }}#}
+{#    {{ moment.include_moment() }}#}
+{#    {{ moment.lang(g.locale) }}#}
+
+
+    <!--Basic Scripts-->
+    <script src="/static/assets/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="/static/assets/js/beyond.js"></script>
+
+
+    <script>
+        function translate(sourceElem, destElem, sourceLang, destLang) {
+            $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+            $.post('/translate', {
+                text: $(sourceElem).text(),
+                source_language: sourceLang,
+                dest_language: destLang
+            }).done(function (response) {
+                $(destElem).text(response['text'])
+            }).fail(function () {
+                $(destElem).text("{{ _('Error: Could not contact server.') }}");
+            });
+        }
+    </script>
+{% endblock %}

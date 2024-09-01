@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{% if title %}{{ title }} {% else %}{{ ('Title') }}{% endif %}</h1>
+
+    {% if not table_title %}{% set table_title = title %}{% endif %}
+    {% include("tables/_search_table.html") %}
+
+
+    {% block scripts %}
+        {#    {{ super() }}#}
+        {#    {{ moment.include_moment() }}#}
+        {#    {{ moment.lang(g.locale) }}#}
+        <script src="/static/jquery-3.3.1.min.js"></script>
+
+    {% endblock %}
+
+    {% block head %}
+        {{ super() }}
+        <meta name="description" content="data tables"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="shortcut icon" href="../static/assets/img/favicon.png" type="image/x-icon">
+
+
+        <!--Page Related styles-->
+        <link href="../static/assets/css/dataTables.bootstrap.css" rel="stylesheet"/>
+
+
+    {% endblock %}
+{% endblock %}
